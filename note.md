@@ -21,6 +21,15 @@
 	response.status_code
 	response.request.headers
 	response.headers```  
+**response.text和response.content的区别**  
+- response.text  
+	- 类型：str  
+	- 解码类型：根据HTTP头部对响应的编码做出有根据的推测，推测的文本解码  
+	- 如何修改编码方式：`response.encoding="jbk"`  
+- response.content  
+	- 类型：bytes  
+	- 解码类型：没有指定  
+	- 如何修改编码方式：`response.content.decode("utf8")`  
 ### 发送带header的请求
 **为什么请求需要带上header？  
 模拟浏览器，欺骗服务器，获取和浏览器一致的内容。**  
