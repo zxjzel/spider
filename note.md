@@ -46,13 +46,13 @@
     	- data的形式字典
 2. 使用代理
 	- 用法
-		- ```python
-    	reauests.get("http://www.baidu.com",proxies=proxies)```
+		- `
+    	reauests.get("http://www.baidu.com",proxies=proxies)`
     	- proxies的形式：字典
-   		- ```python
+   		- `
     	proxies = {
-    	"http":"http://12.34.56.79:9527",
-        "https":"https://12.34.56.79:9527"}```
+		"http":"http://12.34.56.79:9527",
+       	"https":"https://12.34.56.79:9527"}`
 	- 准备一堆的ip地址，组成ip池，随机选择一个ip来使用
 	- 如何随机选择代理ip，让使用次数较少的ip地址由更大的可能性被使用到
 		- {"ip":ip,"times":0}
@@ -83,4 +83,4 @@
 	- 获取登陆后的页面的三种方式
 		- session
     	- headers中添加cookie建，值为cookie字符串
-    	- 在请求方法中添加cookies参数，接收字典形式的cookie。
+    	- 在请求方法中添加cookies参数，接收字典形式的cookie
