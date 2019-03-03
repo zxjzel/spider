@@ -22,7 +22,8 @@ class weather_spider():
 
     def get_url_list(self):
         r = self.get_response('http://www.tianqihoubao.com/lishi/beijing.html')
-        url_list1 = re.findall(r'<li><a href=\'(.*?)\' title=".*?">.*?</a></li>',r,re.S)
+        html = etree.HTML(r)
+        url_list1 = html.xpath('//div[@class=\'box pcity\']//li/a/@href')[:99]
         url_list = []
         for url in url_list1:
             url_list.append('http://www.tianqihoubao.com' + url)
