@@ -69,9 +69,8 @@
 	- 使用方法：
 		- 实例化一个session对象
     	- 让session发送get或者post请求,把cookie保存在session中
-    	- 再使用session请求登陆后才能访问的网站，session能够自动的携带登陆成功时保存在其中的cookie，进行请求
-    	`session = requests.session()
-		response = session.get(url,headers)`
+    	- 再使用session请求登陆后才能访问的网站，session能够自动的携带登陆成功时保存在其中的cookie，进行请求    `session = requests.session()`
+		`response = session.get(url,headers)`
 	- 不发送post请求，使用cookie获取登陆后的界面
 		- cookie工期很长的网站
     	- 在cookie过期之前能够拿到所有的数据
@@ -80,3 +79,44 @@
 		- session
     	- headers中添加cookie建，值为cookie字符串
     	- 在请求方法中添加cookies参数，接收字典形式的cookie
+4. Requests小技巧
+	1. `reqeusts.util.dict_from_cookiejar`把cookie对象转化为字典
+	2. 请求SSL证书验证`response=requests.get("https://www.12306.cn/mormhweb/",verify=False)`
+	3. 设置超时`response=requests.get(url,timeout=10)`
+	4. 配合状态码判断是否请求成功`assert response.status_code==200`
+	5. retrying模块简单用法：
+		- stop_max_attempt_number设置最大重试次数
+		- 
+		```
+		@retry(stop_max_attempt_number=7)
+		def stop_after_7_attempts():
+    		print "Stopping after 7 attempts"
+    		raise
+		```
+		- retry_on_exception指定异常类型，指定的异常类型会重试，不指定的类型，会直接异常退出，wrap_exception参数设置为True，则其他类型异常，或包裹在RetryError中，会看到RetryError和程序抛的Exception error
+		- ```
+		def retry_if_io_error(exception):
+    		"""Return True if we should retry (in this case when it's an IOError), False otherwise"""
+    		return isinstance(exception, IOError)
+		@retry(retry_on_exception=retry_if_io_error)
+		def might_io_error():
+			print "Retry forever with no wait if an IOError occurs, raise any other errors"
+	    	raise Exception('a')
+		@retry(retry_on_exception=retry_if_io_error, wrap_exception=True)
+		def only_raise_retry_error_when_not_io_error():
+	    	print "Retry forever with no wait if an IOError occurs, raise any other errors wrapped in RetryError"
+	    	raise Exception('a')```
+## 寻找登陆的post地址  
+- 在form表单中存照action对应的url地址
+	- post的数据时input标签中name的值作为键，真正的用户名密码作为值的字典，post的url地址就是acction对应的url地址
+- 抓包，寻找登陆的url地址
+	- 勾选perserv log按钮，防止页面跳转找不到url
+	- 寻找post数据，确定参数
+		- 参数不会变，直接用，比如密码不是动态加密的时候
+		- 参数会变
+			- 参数在当前的相应中
+			- 通过js生成
+## 定位想要的js
+- 选择会触发js时间的按钮，点击event listener，找到js的位置
+- 通过chrome中的search all file 来搜索url中关键字
+- 添加断点的方式来查看js的操作，通过python来进行同样的操作
