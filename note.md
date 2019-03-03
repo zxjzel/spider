@@ -94,10 +94,11 @@
     		raise
 		```
 		- retry_on_exception指定异常类型，指定的异常类型会重试，不指定的类型，会直接异常退出，wrap_exception参数设置为True，则其他类型异常，或包裹在RetryError中，会看到RetryError和程序抛的Exception error
-		- ```
-		def retry_if_io_error(exception):
-    		\"""Return True if we should retry (in this case when it's an IOError), False otherwise\"""
-    		return isinstance(exception, IOError)
+		- 
+		```
+		def retry_if_io_error(exception):  
+    		"""Return True if we should retry (in this case when it's an IOError), False otherwise"""  
+    		return isinstance(exception, IOError)  
 		@retry(retry_on_exception=retry_if_io_error)
 		def might_io_error():
 			print "Retry forever with no wait if an IOError occurs, raise any other errors"
