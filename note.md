@@ -41,16 +41,13 @@
 	- 登陆注册(POST比GET更安全)
 	- 需要传输大文本内容的时候(POST请求对数据长度没有要求)
 	- 用法
-		- ```python
- 	response = requests.post("http://www.baidu.com",data=data,headers=headers)```
+		- `response = requests.post("http://www.baidu.com",data=data,headers=headers)`
     	- data的形式字典
 2. 使用代理
 	- 用法
-		- `
-    	reauests.get("http://www.baidu.com",proxies=proxies)`
+		- `reauests.get("http://www.baidu.com",proxies=proxies)`
     	- proxies的形式：字典
-   		- `
-    	proxies = {
+   		- `proxies = {
 		"http":"http://12.34.56.79:9527",
        	"https":"https://12.34.56.79:9527"}`
 	- 准备一堆的ip地址，组成ip池，随机选择一个ip来使用
@@ -73,9 +70,8 @@
 		- 实例化一个session对象
     	- 让session发送get或者post请求,把cookie保存在session中
     	- 再使用session请求登陆后才能访问的网站，session能够自动的携带登陆成功时保存在其中的cookie，进行请求
-    	```python
-    	session = requests.session()
-    	response = session.get(url,headers)```
+    	`session = requests.session()
+		response = session.get(url,headers)`
 	- 不发送post请求，使用cookie获取登陆后的界面
 		- cookie工期很长的网站
     	- 在cookie过期之前能够拿到所有的数据
